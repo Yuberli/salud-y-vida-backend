@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro de Pacientes</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h2 class="mb-4">Registro de Pacientes</h2>
+
+<form th:action="@{/paciente/guardar}" method="post" th:object="${paciente}">
+    <input type="hidden" th:field="*{idPaciente}" />
+
+    <label>Nombre:</label>
+    <input type="text" th:field="*{nombre}" required /><br/>
+
+    <label>Apellido:</label>
+    <input type="text" th:field="*{apellido}" required /><br/>
+
+    <label>DNI:</label>
+    <input type="text" th:field="*{dni}" required maxlength="10" /><br/>
+
+    <label>Edad:</label>
+    <input type="number" th:field="*{edad}" min="0" /><br/>
+
+    <label>Sexo:</label>
+    <select th:field="*{sexo}">
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+    </select><br/>
+
+    <label>Teléfono:</label>
+    <input type="text" th:field="*{telefono}" /><br/>
+
+    <label>Dirección:</label>
+    <input type="text" th:field="*{direccion}" /><br/>
+
+    <button type="submit">Guardar Paciente</button>
+</form>
+
+<hr/>
+
+<!-- Lista de pacientes registrados -->
+<h3>Listado de Pacientes</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Edad</th><th>Sexo</th>
+        <th>Teléfono</th><th>Dirección</th><th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${lista}">
+        <td th:text="${p.idPaciente}"></td>
+        <td th:text="${p.nombre}"></td>
+        <td th:text="${p.apellido}"></td>
+        <td th:text="${p.dni}"></td>
+        <td th:text="${p.edad}"></td>
+        <td th:text="${p.sexo}"></td>
+        <td th:text="${p.telefono}"></td>
+        <td th:text="${p.direccion}"></td>
+        <td>
+            <a th:href="@{/paciente/editar(idPaciente=${p.idPaciente})}">Editar</a> |
+            <a th:href="@{/paciente/eliminar/{id}(id=${p.idPaciente})}" onclick="return confirm('¿Eliminar paciente?')">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
