@@ -1,35 +1,32 @@
 package org.cibertec.salud.clinica_salud.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "usuario")
+@Table(name = "horario")
 
-public class UsuarioEntity {
+public class HorarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
 
-    @ManyToOne
-    @JoinColumn(name = "idRol")
-    private RolEntity rol ;
+    @Column(name = "idHorario")
+    private Integer idHorario;
 
     @ManyToOne
     @JoinColumn(name = "idMedico")
     private MedicoEntity medico;
 
-    @Column(name = "usuario")
-    private String usuario;
+    @Column(name = "fecha")
+    private Date fecha;
 
-    @Column(name = "contraseña")
-    private String contraseña;
+    @Column(name = "hora")
+    private Date hora;
 
     @Column(name = "estado")
     private boolean estado;
-
-
 }

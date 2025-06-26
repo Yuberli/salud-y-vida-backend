@@ -3,27 +3,33 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
 @Entity
-@Table(name = "CitaMedica")
+@Table(name = "citaMedica")
 public class CitaMedicaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdCita")
+    @Column(name = "idCita")
     private Integer idCita;
 
-    @Column(name = "IdPaciente")
-    private Integer idPaciente;
+    @ManyToOne
+    @JoinColumn(name = "idPaciente")
+    private PacienteEntity paciente;
 
-    @Column(name = "IdMedico")
-    private Integer apellidos;
+    @ManyToOne
+    @JoinColumn(name = "idMedico")
+    private MedicoEntity medico;
 
-    @Column(name = "FechaHora")
-    private LocalDateTime fechaHora;
+    @Column(name = "fecha")
+    private Date fecha;
 
-    @Column(name = "Estado")
+    @Column(name = "hora")
+    private Date hora;
+
+    @Column(name = "estado")
     private String estado;
 }

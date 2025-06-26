@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Proveedor")
+@Table(name = "proveedor")
 
 public class ProveedorEntity {
     @Id
@@ -13,13 +13,16 @@ public class ProveedorEntity {
     @Column(name = "IdProveedor")
     private Integer idProveedor;
 
-    @Column(name = "RazonSocial")
+    @Column(name = "razonSocial")
     private String razonSocial ;
 
-    @Column(name = "RUC")
+    @Column(name = "ruc")
     private String ruc;
 
-    @Column(name = "Telefono")
+    @Column(name = "telefono")
     private String telefono ;
+
+    @Column(name = "correo")
+    private String correo;
 
 }

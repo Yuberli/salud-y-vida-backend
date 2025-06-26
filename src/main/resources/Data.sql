@@ -1,142 +1,210 @@
 
 
 
-DROP TABLE IF EXISTS Paciente;
-DROP TABLE IF EXISTS Medico;
-DROP TABLE IF EXISTS CitaMedica;
-DROP TABLE IF EXISTS HistoriaClinica;
-DROP TABLE IF EXISTS Medicamento;
-DROP TABLE IF EXISTS Proveedor;
-DROP TABLE IF EXISTS Usuario;
-
-
-CREATE TABLE Paciente (
-                          IdPaciente INT AUTO_INCREMENT PRIMARY KEY,
-                          Nombres VARCHAR(100),
-                          Apellidos VARCHAR(100),
-                          DNI CHAR(8),
-                          Edad CHAR(5),
-                          Sexo CHAR(1),
-                          Telefono VARCHAR(15),
-                          Direccion VARCHAR(200)
-) ENGINE=InnoDB;
-
-INSERT INTO Paciente (Nombres, Apellidos, DNI, Edad, Sexo, Telefono, Direccion) VALUES
-                                                                                    ('Juan Carlos', 'Ramirez Soto', '72639184', '32', 'M', '987654321', 'Av. Brasil 123'),
-                                                                                    ('Lucía Elena', 'Flores Lazo', '84327129', '27', 'F', '912345678', 'Jr. Castilla 456'),
-                                                                                    ('Pedro Miguel', 'Vargas Ruiz', '75283910', '45', 'M', '922113344', 'Av. La Marina 899'),
-                                                                                    ('Ana Sofía', 'Mendoza Cueva', '80123456', '38', 'F', '934567812', 'Calle Roma 234'),
-                                                                                    ('Marco Antonio', 'Peña Salas', '78945123', '50', 'M', '900111222', 'Psj. Unión 120'),
-                                                                                    ('Andrea Pilar', 'Zegarra Ramos', '81345678', '23', 'F', '944555666', 'Av. Ejército 402'),
-                                                                                    ('Carlos Enrique', 'Chávez Limón', '77091234', '60', 'M', '988123456', 'Jr. Ayacucho 150'),
-                                                                                    ('Verónica Milagros', 'Quispe Bravo', '76543210', '29', 'F', '955222333', 'Av. Colonial 89');
-
-
-CREATE TABLE Medico (
-                        IdMedico INT AUTO_INCREMENT PRIMARY KEY,
-                        Nombres VARCHAR(100),
-                        Apellidos VARCHAR(100),
-                        Especialidad VARCHAR(100),
-                        Estado BOOLEAN
-) ENGINE=InnoDB;
-
-INSERT INTO Medico (Nombres, Apellidos, Especialidad, Estado) VALUES
-                                                                  ('Daniel', 'Ortega Sosa', 'Cardiología', TRUE),
-                                                                  ('Patricia', 'Reyes Torres', 'Pediatría', TRUE),
-                                                                  ('Luis', 'Mendoza Paredes', 'Dermatología', TRUE),
-                                                                  ('Karina', 'Núñez Huamán', 'Medicina General', TRUE),
-                                                                  ('José', 'Ramírez Velásquez', 'Neurología', FALSE),
-                                                                  ('Elena', 'Zapata Alarcón', 'Traumatología', TRUE),
-                                                                  ('Martín', 'Salinas Arroyo', 'Gastroenterología', TRUE),
-                                                                  ('Sandra', 'Gonzales Olivos', 'Ginecología', TRUE);
-
-CREATE TABLE CitaMedica (
-                            IdCita INT AUTO_INCREMENT PRIMARY KEY,
-                            IdPaciente INT,
-                            IdMedico INT,
-                            FechaHora DATETIME,
-                            Estado VARCHAR(50),
-                            FOREIGN KEY (IdPaciente) REFERENCES Paciente(IdPaciente),
-                            FOREIGN KEY (IdMedico) REFERENCES Medico(IdMedico)
-) ENGINE=InnoDB;
-
-INSERT INTO CitaMedica (IdPaciente, IdMedico, FechaHora, Estado) VALUES
-                                                                     (1, 1, '2025-06-17 10:00:00', 'Confirmada'),
-                                                                     (2, 2, '2025-06-17 11:30:00', 'Confirmada'),
-                                                                     (3, 3, '2025-06-17 12:00:00', 'Cancelada'),
-                                                                     (4, 4, '2025-06-18 09:00:00', 'Confirmada'),
-                                                                     (5, 1, '2025-06-18 14:00:00', 'Pendiente'),
-                                                                     (6, 6, '2025-06-19 08:30:00', 'Confirmada'),
-                                                                     (7, 5, '2025-06-19 10:00:00', 'Confirmada'),
-                                                                     (8, 2, '2025-06-20 11:00:00', 'Confirmada');
+DROP TABLE IF EXISTS paciente;
+DROP TABLE IF EXISTS especialidad;
+DROP TABLE IF EXISTS rol;
+DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS medico;
+DROP TABLE IF EXISTS horario;
+DROP TABLE IF EXISTS citaMedica;
+DROP TABLE IF EXISTS historiaClinica;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS medicamento;
+DROP TABLE IF EXISTS ingreso_medicamento;
 
 
 
-CREATE TABLE HistoriaClinica (
-                                 IdHistoria INT AUTO_INCREMENT PRIMARY KEY,
-                                 IdPaciente INT,
-                                 Alergias VARCHAR(50),
-                                 Descripcion VARCHAR(500),
-                                 FOREIGN KEY (IdPaciente) REFERENCES Paciente(IdPaciente)
-) ENGINE=InnoDB;
 
-INSERT INTO HistoriaClinica (IdPaciente, Alergias, Descripcion) VALUES
-                                                                    (1, 'Penicilina', 'Paciente hipertenso, en tratamiento desde hace 5 años.'),
-                                                                    (2, 'Ninguna', 'Antecedente de asma leve controlada.'),
-                                                                    (3, 'Ibuprofeno', 'Cirugía de vesícula en 2021.'),
-                                                                    (4, 'Látex', 'Control ginecológico anual.'),
-                                                                    (5, 'Ninguna', 'Paciente diabético tipo 2.'),
-                                                                    (6, 'Paracetamol', 'Revisión general previa a cirugía.'),
-                                                                    (7, 'Ninguna', 'Consulta por dolores articulares.'),
-                                                                    (8, 'Gluten', 'Alergia alimentaria controlada.');
+-- Tabla PACIENTE
+CREATE TABLE paciente (
+                          idPaciente INT PRIMARY KEY AUTO_INCREMENT,
+                          nombre VARCHAR(100) NOT NULL,
+                          apellido VARCHAR(100) NOT NULL,
+                          dni VARCHAR(10) NOT NULL UNIQUE,
+                          edad INT,
+                          sexo VARCHAR(10),
+                          telefono VARCHAR(15),
+                          direccion VARCHAR(150)
+);
+
+INSERT INTO paciente (nombre, apellido, dni, edad, sexo, telefono, direccion) VALUES
+                                                                                  ('Carlos', 'Ramírez', '12345678', 30, 'Masculino', '999111222', 'Av. Lima 123'),
+                                                                                  ('María', 'Torres', '87654321', 25, 'Femenino', '999333444', 'Calle Sol 456');
 
 
-CREATE TABLE Medicamento (
-                             IdMedicamento INT AUTO_INCREMENT PRIMARY KEY,
-                             Nombre VARCHAR(100),
-                             Presentacion VARCHAR(100),
-                             Concentracion VARCHAR(50),
-                             Unidad VARCHAR(20),
-                             StockActual INT,
-                             Estado BOOLEAN
-) ENGINE=InnoDB;
 
-INSERT INTO Medicamento (Nombre, Presentacion, Concentracion, Unidad, StockActual, Estado) VALUES
-                                                                                               ('Paracetamol', 'Tabletas', '500mg', 'mg', 150, TRUE),
-                                                                                               ('Ibuprofeno', 'Cápsulas', '400mg', 'mg', 120, TRUE),
-                                                                                               ('Amoxicilina', 'Tabletas', '500mg', 'mg', 80, TRUE),
-                                                                                               ('Metformina', 'Tabletas', '850mg', 'mg', 100, TRUE),
-                                                                                               ('Omeprazol', 'Cápsulas', '20mg', 'mg', 60, TRUE),
-                                                                                               ('Salbutamol', 'Inhalador', '100mcg', 'mcg', 40, TRUE),
-                                                                                               ('Diclofenaco', 'Ampolla', '75mg', 'mg', 30, TRUE),
-                                                                                               ('Loratadina', 'Jarabe', '10mg/5ml', 'ml', 90, TRUE);
+-- Tabla ESPECIALIDAD
+CREATE TABLE especialidad (
+                              idEspecialidad INT PRIMARY KEY AUTO_INCREMENT,
+                              nombre VARCHAR(50) NOT NULL
+);
 
-CREATE TABLE Proveedor (
-                           IdProveedor INT AUTO_INCREMENT PRIMARY KEY,
-                           RazonSocial VARCHAR(200),
-                           RUC VARCHAR(11),
-                           Telefono VARCHAR(20)
-) ENGINE=InnoDB;
+INSERT INTO especialidad (nombre) VALUES
+                                      ('Pediatría'),
+                                      ('Medicina General'),
+                                      ('Ginecología'),
+                                      ('Cardiología');
 
-INSERT INTO Proveedor (RazonSocial, RUC, Telefono) VALUES
-                                                       ('Farmacéutica Andina S.A.', '20512345678', '012345678'),
-                                                       ('Distribuidora PharmaPlus', '20654321890', '017654321'),
-                                                       ('Laboratorios VITA', '20456789321', '013456789'),
-                                                       ('Medic Perú SAC', '20987654321', '016789012'),
-                                                       ('Biosalud S.A.C.', '20876543210', '012398765'),
-                                                       ('Laboratorios Salk', '20765432109', '019876543'),
-                                                       ('Salud y Vida EIRL', '20345678901', '018765432'),
-                                                       ('NutraFarm EIRL', '20234567890', '017654321');
 
-CREATE TABLE Usuario (
-                         IdUsuario INT AUTO_INCREMENT PRIMARY KEY,
-                         Usuario VARCHAR(50),
-                         Contraseña VARCHAR(100),
-                         Rol VARCHAR(50)
-) ENGINE=InnoDB;
+-- Tabla ROL
+CREATE TABLE rol (
+                     idRol INT PRIMARY KEY AUTO_INCREMENT,
+                     descripcion VARCHAR(50) NOT NULL
+);
 
-INSERT INTO Usuario (Usuario, Contraseña, Rol) VALUES
-                                                   ('admin', 'admin123', 'Administrador'),
-                                                   ('recepcion', 'recep123', 'Recepcionista'),
-                                                   ('medico', 'med123', 'Medico');
+INSERT INTO rol (descripcion) VALUES
+                                  ('ADMIN'),
+                                  ('RECEPCION'),
+                                  ('MEDICO'),
+                                  ('FARMACIA');
 
+
+
+
+CREATE TABLE usuario (
+                         idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+                         idRol INT NOT NULL,
+                         idMedico INT, -- NULL si no es médico
+                         usuario VARCHAR(50) NOT NULL UNIQUE,
+                         contraseña VARCHAR(100) NOT NULL,
+                         estado BOOLEAN DEFAULT TRUE,
+                         FOREIGN KEY (idRol) REFERENCES rol(idRol),
+                         FOREIGN KEY (idMedico) REFERENCES medico(idMedico)
+);
+
+
+INSERT INTO usuario (idRol, idMedico, usuario, contraseña, estado) VALUES
+                                                                       (1, NULL, 'admin01', 'admin123', TRUE),           -- Administrador
+                                                                       (2, NULL, 'recepcion1', 'recep123', TRUE),        -- Recepcionista
+                                                                       (3, 1, 'drjuan', 'medico123', TRUE),              -- Médico Juan Pérez
+                                                                       (4, NULL, 'farmacia01', 'farma123', TRUE);        -- Usuario de Farmacia
+
+
+
+-- Tabla MEDICO
+CREATE TABLE medico (
+                        idMedico INT PRIMARY KEY AUTO_INCREMENT,
+                        nombre VARCHAR(100) NOT NULL,
+                        apellido VARCHAR(100) NOT NULL,
+                        idEspecialidad INT NOT NULL,
+                        telefono VARCHAR(15),
+                        estado BOOLEAN DEFAULT TRUE,
+                        FOREIGN KEY (idEspecialidad) REFERENCES especialidad(idEspecialidad)
+);
+
+INSERT INTO medico (nombre, apellido, idEspecialidad, telefono, estado) VALUES
+                                                                            ('Juan', 'Pérez', 1, '987654321', TRUE),
+                                                                            ('Lucía', 'Gómez', 2, '912345678', TRUE);
+
+
+
+-- Tabla HORARIO (disponibilidad del médico)
+CREATE TABLE horario (
+                         idHorario INT PRIMARY KEY AUTO_INCREMENT,
+                         idMedico INT NOT NULL,
+                         fecha DATE NOT NULL,
+                         hora TIME NOT NULL,
+                         estado BOOLEAN DEFAULT TRUE,
+                         FOREIGN KEY (idMedico) REFERENCES medico(idMedico)
+);
+
+-- Horarios para el médico Juan Pérez
+INSERT INTO horario (idMedico, fecha, hora, estado) VALUES
+                                                        (1, '2025-06-25', '09:00:00', TRUE),
+                                                        (1, '2025-06-25', '10:00:00', TRUE),
+                                                        (1, '2025-06-25', '11:00:00', TRUE);
+
+-- Horarios para la médica Lucía Gómez
+INSERT INTO horario (idMedico, fecha, hora, estado) VALUES
+                                                        (2, '2025-06-25', '14:00:00', TRUE),
+                                                        (2, '2025-06-25', '15:00:00', TRUE),
+                                                        (2, '2025-06-25', '16:00:00', TRUE);
+
+
+-- Tabla CITA MEDICA
+CREATE TABLE citamedica (
+                            idCita INT PRIMARY KEY AUTO_INCREMENT,
+                            idPaciente INT NOT NULL,
+                            idMedico INT NOT NULL,
+                            fecha DATE NOT NULL,
+                            hora TIME NOT NULL,
+                            estado VARCHAR(20) DEFAULT 'Pendiente',
+                            FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente),
+                            FOREIGN KEY (idMedico) REFERENCES medico(idMedico)
+);
+
+-- Carlos Ramírez agenda cita con Dr. Juan Pérez
+INSERT INTO citamedica (idPaciente, idMedico, fecha, hora, estado) VALUES
+    (1, 1, '2025-06-25', '09:00:00', 'Confirmado');
+
+-- María Torres agenda cita con Dr. Juan Pérez
+INSERT INTO citamedica (idPaciente, idMedico, fecha, hora, estado) VALUES
+    (2, 1, '2025-06-25', '10:00:00', 'Pendiente');
+
+-- María Torres agenda cita con Dra. Lucía Gómez
+INSERT INTO citamedica (idPaciente, idMedico, fecha, hora, estado) VALUES
+    (2, 2, '2025-06-25', '15:00:00', 'Confirmado');
+
+
+-- Tabla HISTORIA CLINICA
+CREATE TABLE historiaclinica (
+                                 idHistoria INT PRIMARY KEY AUTO_INCREMENT,
+                                 idPaciente INT NOT NULL,
+                                 descripcion TEXT,
+                                 FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente)
+);
+
+INSERT INTO historiaclinica (idPaciente, idMedico, descripcion, fechaRegistro) VALUES
+                                                                                   (1, 1, 'Paciente con síntomas de gripe. Se recetó Paracetamol.'),
+                                                                                   (2, 2, 'Consulta por dolor abdominal. Se indicó ecografía.');
+
+
+-- Tabla PROVEEDOR
+CREATE TABLE proveedor (
+                           idProveedor INT PRIMARY KEY AUTO_INCREMENT,
+                           razonSocial VARCHAR(100) NOT NULL,
+                           ruc VARCHAR(11) NOT NULL UNIQUE,
+                           telefono VARCHAR(15),
+                           correo VARCHAR(100)
+);
+
+
+INSERT INTO proveedor (razonSocial, ruc, telefono, correo) VALUES
+                                                               ('Laboratorios Genfar', '20123456789', '954123456', 'ventas@genfar.com'),
+                                                               ('Distribuidora MedLife', '20456789123', '987654321', 'contacto@medlife.pe');
+
+
+-- Tabla MEDICAMENTO
+CREATE TABLE medicamento (
+                             idMedicamento INT PRIMARY KEY AUTO_INCREMENT,
+                             idProveedor INT NOT NULL,
+                             nombre VARCHAR(100) NOT NULL,
+                             presentacion VARCHAR(50),
+                             concentracion VARCHAR(50),
+                             unidad VARCHAR(20),
+                             stockActual INT DEFAULT 0,
+                             stockMinimo INT DEFAULT 10,
+                             estado BOOLEAN DEFAULT TRUE,
+                             FOREIGN KEY (idProveedor) REFERENCES proveedor(idProveedor)
+);
+
+INSERT INTO medicamento (idProveedor, nombre, presentacion, concentracion, unidad, stockActual, stockMinimo, estado) VALUES
+                                                                                                                         (1, 'Paracetamol', 'Tableta', '500mg', 'mg', 100, 20, TRUE),
+                                                                                                                         (2, 'Amoxicilina', 'Cápsula', '250mg', 'mg', 80, 15, TRUE);
+
+
+create table ingreso_medicamento (
+                                     idIngreso INT PRIMARY KEY AUTO_INCREMENT,
+                                     idProveedor INT NOT NULL,
+                                     idMedicamento INT NOT NULL,
+                                     cantidad INT NOT NULL,
+                                     fechaIngreso DATETIME NOT NULL,
+                                     observaciones TEXT,
+                                     FOREIGN KEY (idProveedor) REFERENCES proveedor(idProveedor),
+                                     FOREIGN KEY (idMedicamento) REFERENCES medicamento(idMedicamento)
+)
+
+    INSERT INTO ingreso_medicamento (idProveedor, idMedicamento, cantidad, fechaIngreso, observaciones) VALUES
+(1, 1, 50, '2025-06-01 09:00:00', 'Primer lote del mes'),
+(2, 2, 80, '2025-06-02 11:30:00', 'Reposición de inventario');

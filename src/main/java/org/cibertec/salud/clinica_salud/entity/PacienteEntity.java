@@ -6,32 +6,32 @@ import lombok.Data;
 
     @Data
     @Entity
-    @Table(name = "Paciente")
+    @Table(name = "paciente")
     public class PacienteEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "idPaciente")
         private Integer idPaciente;
 
-        @Column(name = "Nombres")
-        private String nombres;
+        @Column(name = "nombre")
+        private String nombre;
 
-        @Column(name = "Apellidos")
-        private String apellidos;
+        @Column(name = "apellido")
+        private String apellido;
 
-        @Column(name = "DNI")
+        @Column(name = "dni")
         private String dni;
 
-        @Column(name = "Edad")
-        private String edad;
+        @Column(name = "edad")
+        private Integer edad;
 
-        @Column(name = "Sexo")
+        @Column(name = "sexo")
         private String sexo;
 
-        @Column(name = "Telefono")
+        @Column(name = "telefono")
         private String telefono;
 
-        @Column(name = "Direccion")
+        @Column(name = "direccion")
         private String direccion;
     }
 

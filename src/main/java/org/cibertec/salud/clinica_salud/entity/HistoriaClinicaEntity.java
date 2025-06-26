@@ -3,22 +3,21 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 
+
 @Data
 @Entity
-@Table(name = "HistoriaClinica")
+@Table(name = "historiaclinica")
 public class HistoriaClinicaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdHistoria")
+    @Column(name = "idHistoria")
     private Integer idHistoria;
 
-    @Column(name = "IdPaciente")
-    private Integer idPaciente;
-
-    @Column(name = "Alergias")
-    private String alergias;
+    @ManyToOne
+    @JoinColumn(name = "IdPaciente")
+    private PacienteEntity paciente;
 
     @Column(name = "Descripcion")
-    private String descripcion ;
+    private String descripcion;
 }

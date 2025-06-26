@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Medicamento")
+@Table(name = "medicamento")
 
 public class MedicamentoEntity {
 
@@ -14,20 +14,27 @@ public class MedicamentoEntity {
     @Column(name = "IdMedicamento")
     private Integer idMedicamento;
 
-    @Column(name = "Nombre")
+    @ManyToOne
+    @JoinColumn(name = "idProveedor")
+    private ProveedorEntity proveedor;
+
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "Presentacion")
+    @Column(name = "presentacion")
     private String presentacion;
 
-    @Column(name = "Concentracion")
+    @Column(name = "concentracion")
     private String concentracion;
 
-    @Column(name = "Unidad")
+    @Column(name = "unidad")
     private String unidad;
 
-    @Column(name = "StockActual")
+    @Column(name = "stockActual")
     private Integer stockActual;
+
+    @Column(name = "stockMinimo")
+    private Integer stockMinimo;
 
     @Column(name = "Estado")
     private boolean estado;
