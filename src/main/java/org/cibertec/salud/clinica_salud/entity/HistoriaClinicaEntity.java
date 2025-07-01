@@ -1,6 +1,7 @@
 package org.cibertec.salud.clinica_salud.entity;
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
 
 
 
@@ -20,4 +21,7 @@ public class HistoriaClinicaEntity {
 
     @Column(name = "Descripcion")
     private String descripcion;
+
+    @Column(name = "fechaRegistro")
+    private LocalDate fechaRegistro;
 }

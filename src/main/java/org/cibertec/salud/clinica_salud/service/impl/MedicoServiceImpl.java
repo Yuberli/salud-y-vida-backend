@@ -4,6 +4,7 @@ import org.cibertec.salud.clinica_salud.service.MedicoService;
 import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+@Service
 public class MedicoServiceImpl extends GenericServiceImpl<MedicoEntity,Integer> implements MedicoService {
 
     public MedicoServiceImpl(JpaRepository<MedicoEntity,Integer> repository) {

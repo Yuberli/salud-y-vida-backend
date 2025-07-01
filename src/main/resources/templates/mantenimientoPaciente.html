@@ -4,69 +4,192 @@
     <title>Registro de Pacientes</title>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body class="container mt-4">
+<body class="container py-4">
 
-<h2 class="mb-4">Registro de Pacientes</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">
+        <i class="bi bi-calendar-plus-fill"></i> Registro de Pacientes
+    </h2>
+    <a href="/cita/inicio" class="btn btn-outline-primary">
+        <i class="bi bi-person-plus-fill"></i> Nueva Cita Médica
+    </a>
+</div>
 
-<form th:action="@{/paciente/guardar}" method="post" th:object="${paciente}">
+<form th:action="@{/paciente/guardar}" method="post" th:object="${paciente}" class="row g-3 mb-4 shadow-sm p-4 border rounded bg-light">
+
     <input type="hidden" th:field="*{idPaciente}" />
 
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required /><br/>
+    <div class="col-md-6">
+        <label class="form-label">Nombre:</label>
+        <input type="text" th:field="*{nombre}" class="form-control" required>
+    </div>
 
-    <label>Apellido:</label>
-    <input type="text" th:field="*{apellido}" required /><br/>
+    <div class="col-md-6">
+        <label class="form-label">Apellido:</label>
+        <input type="text" th:field="*{apellido}" class="form-control" required>
+    </div>
 
-    <label>DNI:</label>
-    <input type="text" th:field="*{dni}" required maxlength="10" /><br/>
+    <div class="col-md-4">
+        <label class="form-label">DNI:</label>
+        <input type="text" th:field="*{dni}" class="form-control" required maxlength="10">
+    </div>
 
-    <label>Edad:</label>
-    <input type="number" th:field="*{edad}" min="0" /><br/>
+    <div class="col-md-2">
+        <label class="form-label">Edad:</label>
+        <input type="number" th:field="*{edad}" class="form-control" min="0">
+    </div>
 
-    <label>Sexo:</label>
-    <select th:field="*{sexo}">
-        <option value="Masculino">Masculino</option>
-        <option value="Femenino">Femenino</option>
-    </select><br/>
+    <div class="col-md-3">
+        <label class="form-label">Sexo:</label>
+        <select th:field="*{sexo}" class="form-select">
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+        </select>
+    </div>
 
-    <label>Teléfono:</label>
-    <input type="text" th:field="*{telefono}" /><br/>
+    <div class="col-md-3">
+        <label class="form-label">Teléfono:</label>
+        <input type="text" th:field="*{telefono}" class="form-control">
+    </div>
 
-    <label>Dirección:</label>
-    <input type="text" th:field="*{direccion}" /><br/>
+    <div class="col-12">
+        <label class="form-label">Dirección:</label>
+        <input type="text" th:field="*{direccion}" class="form-control">
+    </div>
 
-    <button type="submit">Guardar Paciente</button>
+    <div class="col-12 text-end">
+        <button type="submit" class="btn btn-success"><i class="bi bi-save-fill"></i> Guardar </button>
+        <a href="/paciente/inicio" class="btn btn-secondary"><i class="bi bi-plus-circle"></i> Nuevo Paciente
+        </a>
+    </div>
 </form>
 
-<hr/>
+<!-- Tabla de pacientes -->
+<h3><i class="bi bi-list-ul"></i> Lista de Pacientes</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Edad</th><th>Sexo</th>
+            <th>Teléfono</th><th>Dirección</th><th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${lista}">
+            <td th:text="${p.idPaciente}"></td>
+            <td th:text="${p.nombre}"></td>
+            <td th:text="${p.apellido}"></td>
+            <td th:text="${p.dni}"></td>
+            <td th:text="${p.edad}"></td>
+            <td th:text="${p.sexo}"></td>
+            <td th:text="${p.telefono}"></td>
+            <td th:text="${p.direccion}"></td>
+            <td>
+                <button
+                        class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalEditar"
+                        th:attr="data-id=${p.idPaciente},
+                                     data-nombre=${p.nombre},
+                                     data-apellido=${p.apellido},
+                                     data-dni=${p.dni},
+                                     data-edad=${p.edad},
+                                     data-sexo=${p.sexo},
+                                     data-telefono=${p.telefono},
+                                     data-direccion=${p.direccion}">
+                    <i class="bi bi-pencil-square"></i>
+                </button>
 
-<!-- Lista de pacientes registrados -->
-<h3>Listado de Pacientes</h3>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Edad</th><th>Sexo</th>
-        <th>Teléfono</th><th>Dirección</th><th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="p : ${lista}">
-        <td th:text="${p.idPaciente}"></td>
-        <td th:text="${p.nombre}"></td>
-        <td th:text="${p.apellido}"></td>
-        <td th:text="${p.dni}"></td>
-        <td th:text="${p.edad}"></td>
-        <td th:text="${p.sexo}"></td>
-        <td th:text="${p.telefono}"></td>
-        <td th:text="${p.direccion}"></td>
-        <td>
-            <a th:href="@{/paciente/editar(idPaciente=${p.idPaciente})}">Editar</a> |
-            <a th:href="@{/paciente/eliminar/{id}(id=${p.idPaciente})}" onclick="return confirm('¿Eliminar paciente?')">Eliminar</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                <a th:href="@{/paciente/eliminar/{id}(id=${p.idPaciente})}"
+                   onclick="return confirm('¿Eliminar paciente?')"
+                   class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal de edición -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form th:action="@{/paciente/guardar}" method="post">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="modalEditarLabel"><i class="bi bi-pencil-square"></i> Editar Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body row g-3">
+                    <input type="hidden" name="idPaciente" id="editIdPaciente">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre:</label>
+                        <input type="text" name="nombre" id="editNombre" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Apellido:</label>
+                        <input type="text" name="apellido" id="editApellido" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">DNI:</label>
+                        <input type="text" name="dni" id="editDni" class="form-control" maxlength="10" required>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Edad:</label>
+                        <input type="number" name="edad" id="editEdad" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Sexo:</label>
+                        <select name="sexo" id="editSexo" class="form-select">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Teléfono:</label>
+                        <input type="text" name="telefono" id="editTelefono" class="form-control">
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Dirección:</label>
+                        <input type="text" name="direccion" id="editDireccion" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-save2-fill"></i> Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS y Script para cargar datos al modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const modalEditar = document.getElementById('modalEditar');
+    modalEditar.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        document.getElementById('editIdPaciente').value = button.getAttribute('data-id');
+        document.getElementById('editNombre').value = button.getAttribute('data-nombre');
+        document.getElementById('editApellido').value = button.getAttribute('data-apellido');
+        document.getElementById('editDni').value = button.getAttribute('data-dni');
+        document.getElementById('editEdad').value = button.getAttribute('data-edad');
+        document.getElementById('editSexo').value = button.getAttribute('data-sexo');
+        document.getElementById('editTelefono').value = button.getAttribute('data-telefono');
+        document.getElementById('editDireccion').value = button.getAttribute('data-direccion');
+    });
+</script>
 
 </body>
 </html>

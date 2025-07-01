@@ -1,8 +1,6 @@
 package org.cibertec.salud.clinica_salud.controller;
-
 import org.cibertec.salud.clinica_salud.entity.PacienteEntity;
 import org.cibertec.salud.clinica_salud.service.PacienteService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

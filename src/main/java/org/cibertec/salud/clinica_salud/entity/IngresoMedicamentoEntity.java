@@ -1,9 +1,10 @@
 package org.cibertec.salud.clinica_salud.entity;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 import jakarta.persistence.*;
 
+
 import java.util.Date;
+
 
 @Data
 @Entity

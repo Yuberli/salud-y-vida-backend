@@ -2,8 +2,9 @@ package org.cibertec.salud.clinica_salud.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 
 @Data
@@ -25,10 +26,10 @@ public class CitaMedicaEntity {
     private MedicoEntity medico;
 
     @Column(name = "fecha")
-    private Date fecha;
+    private LocalDate fecha;
 
     @Column(name = "hora")
-    private Date hora;
+    private LocalTime hora;
 
     @Column(name = "estado")
     private String estado;
