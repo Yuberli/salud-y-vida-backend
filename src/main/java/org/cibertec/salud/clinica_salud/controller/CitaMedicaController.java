@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,22 +54,24 @@ public class CitaMedicaController {
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute CitaMedicaEntity citaMedica, RedirectAttributes redirectAttributes) {
         try {
-            // Validar fecha futura
+            // Valida fecha futura
             if (citaMedica.getFecha().isBefore(LocalDate.now())) {
                 redirectAttributes.addFlashAttribute("error", "La fecha debe ser futura a la fecha actual");
                 return "redirect:/cita/inicio";
             }
 
-            // Verificar creación o edición
+            // Verifica creación
             if (citaMedica.getIdCita() == null) {
                 citaMedicaService.create(citaMedica);
-                redirectAttributes.addFlashAttribute("success", "Cita médica creada exitosamente");
+                redirectAttributes.addFlashAttribute("success", "Cita médica creada");
             } else {
+                // Verifica edición
                 citaMedicaService.modify(citaMedica);
-                redirectAttributes.addFlashAttribute("success", "Cita médica actualizada exitosamente");
+                redirectAttributes.addFlashAttribute("success", "Cita médica actualizada");
             }
 
         } catch (Exception e) {
+            //Visualizar error
             redirectAttributes.addFlashAttribute("error", "Error al procesar la cita: " + e.getMessage());
         }
 
@@ -81,9 +82,7 @@ public class CitaMedicaController {
     public String editar(@RequestParam("idCita") Integer idCita, Model model) {
         try {
             CitaMedicaEntity cita = citaMedicaService.getById(idCita);
-            System.out.println("🟢 Cita: " + cita);
-            System.out.println("🟢 Fecha: " + cita.getFecha());
-            System.out.println("🟢 Hora: " + cita.getHora());
+
             model.addAttribute("citaMedica", cita);
             model.addAttribute("lista", citaMedicaService.getAll());
             model.addAttribute("pacientes", pacienteService.getAll());
@@ -117,13 +116,18 @@ public class CitaMedicaController {
         @ResponseBody
         public ResponseEntity<byte[]> exportarReporteCitas() throws Exception {
 
+            //Traer datos
             List<CitaMedicaEntity> lista = citaMedicaService.getAll();
+
+            //Crear datasource
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
 
+            //Cargar el .jasper compilado
             InputStream jasperStream = new ClassPathResource("reportes/reporte_citas.jasper").getInputStream();
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperStream, new HashMap<>(), dataSource);
 
+            //Exportar PDF
             byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 
             return ResponseEntity.ok()

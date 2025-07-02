@@ -88,18 +88,19 @@ public class MedicamentoController {
         @GetMapping("/medicamentos")
         @ResponseBody
         public ResponseEntity<byte[]> exportarReporteMedicamentos() throws Exception {
-            // ⚡ 1. Traer datos
+
+            //Traer datos
             List<MedicamentoEntity> lista = medicamentoService.getAll();
 
-            // ⚡ 2. Crear datasource
+            //Crear datasource
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
 
-            // ⚡ 3. Cargar el .jasper compilado
+            //Cargar el .jasper compilado
             InputStream jasperStream = new ClassPathResource("reportes/reporte_medicamentos.jasper").getInputStream();
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperStream, new HashMap<>(), dataSource);
 
-            // ⚡ 4. Exportar PDF
+            //Exportar PDF
             byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
 
             return ResponseEntity.ok()
