@@ -30,6 +30,7 @@ public class HorarioController {
 
     @GetMapping("/disponibles")
     public List<HorarioEntity> getHorariosDisponibles(
+
             @RequestParam("idMedico") Integer idMedico,
             @RequestParam("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha) {
 

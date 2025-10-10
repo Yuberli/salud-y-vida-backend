@@ -1,8 +1,13 @@
 package org.cibertec.salud.clinica_salud.entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "medicamento")
@@ -37,6 +42,6 @@ public class MedicamentoEntity {
     private Integer stockMinimo;
 
     @Column(name = "Estado")
-    private boolean estado;
+    private Boolean estado;
 
 }

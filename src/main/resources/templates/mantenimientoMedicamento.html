@@ -6,9 +6,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body class="container py-4">
+<body class="bg-light">
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<nav th:replace="~{security/layout::menu}" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top mb-4"></nav>
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">
         <i class="bi bi-capsule"></i> Registro de Medicamentos
     </h2>
@@ -19,7 +23,7 @@
     </a>
 </div>
 
-<!-- Alertas -->
+
 <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
     <th:block th:text="${success}"></th:block>
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -30,12 +34,12 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 
-<!-- Formulario principal -->
+
 <form th:action="@{/medicamento/guardar}" method="post" th:object="${medicamento}"
       class="row g-3 mb-4 shadow-sm p-4 border rounded bg-light">
     <input type="hidden" th:field="*{idMedicamento}" />
 
-    <!-- Proveedor -->
+
     <div class="col-md-6">
         <label class="form-label">Proveedor:</label>
         <select th:field="*{proveedor.idProveedor}" class="form-select" required>
@@ -46,43 +50,40 @@
         </select>
     </div>
 
-    <!-- Nombre -->
+
     <div class="col-md-6">
         <label class="form-label">Nombre:</label>
         <input type="text" th:field="*{nombre}" class="form-control" required>
     </div>
 
-    <!-- Presentación -->
+
     <div class="col-md-4">
         <label class="form-label">Presentación:</label>
         <input type="text" th:field="*{presentacion}" class="form-control" required>
     </div>
 
-    <!-- Concentración -->
+
     <div class="col-md-4">
         <label class="form-label">Concentración:</label>
         <input type="text" th:field="*{concentracion}" class="form-control" required>
     </div>
 
-    <!-- Unidad -->
+
     <div class="col-md-4">
         <label class="form-label">Unidad:</label>
         <input type="text" th:field="*{unidad}" class="form-control" required>
     </div>
 
-    <!-- Stock Actual -->
     <div class="col-md-3">
         <label class="form-label">Stock Actual:</label>
         <input type="number" th:field="*{stockActual}" class="form-control" min="0" required>
     </div>
 
-    <!-- Stock Mínimo -->
     <div class="col-md-3">
         <label class="form-label">Stock Mínimo:</label>
         <input type="number" th:field="*{stockMinimo}" class="form-control" min="0" required>
     </div>
 
-    <!-- Estado -->
     <div class="col-md-3">
         <label class="form-label">Estado:</label>
         <select th:field="*{estado}" class="form-select">
@@ -91,7 +92,6 @@
         </select>
     </div>
 
-    <!-- Botón Guardar -->
     <div class="col-12 text-end">
         <button type="submit" class="btn btn-success">
             <i class="bi bi-download"></i> Guardar
@@ -101,7 +101,6 @@
     </div>
 </form>
 
-<!-- Tabla de Medicamentos -->
 <h3><i class="bi bi-list-ul"></i> Lista de Medicamentos</h3>
 <div class="table-responsive">
     <table class="table table-striped table-hover align-middle">
@@ -153,7 +152,6 @@
     </table>
 </div>
 
-<!-- Modal Editar Medicamento -->
 <div class="modal fade" id="modalEditarMedicamento" tabindex="-1" aria-labelledby="modalEditarMedicamentoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -165,7 +163,6 @@
                 <div class="modal-body row g-3">
                     <input type="hidden" name="idMedicamento" id="editIdMedicamento">
 
-                    <!-- Proveedor -->
                     <div class="col-md-6">
                         <label class="form-label">Proveedor:</label>
                         <select name="proveedor.idProveedor" id="editProveedor" class="form-select" required>
@@ -174,43 +171,36 @@
                         </select>
                     </div>
 
-                    <!-- Nombre -->
                     <div class="col-md-6">
                         <label class="form-label">Nombre:</label>
                         <input type="text" name="nombre" id="editNombre" class="form-control" required>
                     </div>
 
-                    <!-- Presentación -->
                     <div class="col-md-4">
                         <label class="form-label">Presentación:</label>
                         <input type="text" name="presentacion" id="editPresentacion" class="form-control" required>
                     </div>
 
-                    <!-- Concentración -->
                     <div class="col-md-4">
                         <label class="form-label">Concentración:</label>
                         <input type="text" name="concentracion" id="editConcentracion" class="form-control" required>
                     </div>
 
-                    <!-- Unidad -->
                     <div class="col-md-4">
                         <label class="form-label">Unidad:</label>
                         <input type="text" name="unidad" id="editUnidad" class="form-control" required>
                     </div>
 
-                    <!-- Stock Actual -->
                     <div class="col-md-3">
                         <label class="form-label">Stock Actual:</label>
                         <input type="number" name="stockActual" id="editStockActual" class="form-control" min="0" required>
                     </div>
 
-                    <!-- Stock Mínimo -->
                     <div class="col-md-3">
                         <label class="form-label">Stock Mínimo:</label>
                         <input type="number" name="stockMinimo" id="editStockMinimo" class="form-control" min="0" required>
                     </div>
 
-                    <!-- Estado -->
                     <div class="col-md-3">
                         <label class="form-label">Estado:</label>
                         <select name="estado" id="editEstado" class="form-select">
@@ -247,6 +237,6 @@
         document.getElementById('editEstado').value = button.getAttribute('data-estado');
     });
 </script>
-
+</div>
 </body>
 </html>

@@ -2,6 +2,8 @@ package org.cibertec.salud.clinica_salud.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 
 @Data
 @Entity
@@ -11,25 +13,34 @@ public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Column(name = "idusuario")
+    private Integer idusuario;
 
-    @ManyToOne
-    @JoinColumn(name = "idRol")
-    private RolEntity rol ;
+    @Column(name = "nomusuario")
+    private String nomusuario;
 
-    @ManyToOne
-    @JoinColumn(name = "idMedico")
-    private MedicoEntity medico;
+    @Column(name="nombres")
+    private String nombres;
 
-    @Column(name = "usuario")
-    private String usuario;
+    @Column(name="apellidos")
+    private String apellidos;
 
-    @Column(name = "contraseña")
-    private String contraseña;
+    @Column(name="password")
+    private String password;
 
-    @Column(name = "estado")
-    private boolean estado;
+    @Column(name="email")
+    private String email;
+
+    @Column(name = "activo")
+    private Boolean activo;
+
+    @ManyToMany(cascade = CascadeType.MERGE,
+    fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_rol",
+    joinColumns = @JoinColumn(name="idusuario"),
+    inverseJoinColumns = @JoinColumn(name="idrol"))
+
+    private Set<RolEntity> roles;
 
 
 }

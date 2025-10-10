@@ -1,8 +1,15 @@
 package org.cibertec.salud.clinica_salud.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 
     @Data
     @Entity

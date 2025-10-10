@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{security/layout::head}">
+  <meta charset="UTF-8">
+  <title>Inicio</title>
+</head>
+<body>
+
+<nav th:replace="~{security/layout::menu}"></nav>
+
+<div class="container mt-5">
+  <div class="alert alert-success text-center">
+    <h4>¡Bienvenido, <span th:text="${session.nomusuario}">Usuario</span>!</h4>
+    <p>Has iniciado sesión correctamente en el sistema <strong>Salud y Vida</strong>.</p>
+  </div>
+</div>
+
+</body>
+</html>

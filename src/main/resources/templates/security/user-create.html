@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:insert="~{security/layout::head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:insert="~{security/layout::menu}"></nav>
+
+<br />
+<div class="card">
+    <div class="card-header text-bg-secondary">
+        Mantenimiento de Usuarios
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Registro de Usuarios</h5>
+        <hr />
+
+        <form th:action="@{/security/user/register}" th:object="${user}" method="post">
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" th:field="*{nomusuario}" id="txtnomusuario" placeholder="name@example.com">
+                <label for="txtnomusuario">Nombre de Usuario</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" th:field="*{nombres}" id="txtnombres" placeholder="name@example.com">
+                <label for="txtnombres">Nombres</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" th:field="*{apellidos}" id="txtapellidos" placeholder="name@example.com">
+                <label for="txtapellidos">Apellidos</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" th:field="*{email}" id="txtemail" placeholder="name@example.com">
+                <label for="txtemail">Email</label>
+            </div>
+            <div>
+                <label class="form-label">Roles:</label>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="rol : ${rolList}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:value="${rol.idrol}" th:field="*{rolesSeleccionados}">
+                            <label class="form-check-label" th:text="${rol.nomrol}"></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

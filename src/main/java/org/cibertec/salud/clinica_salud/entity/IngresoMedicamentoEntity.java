@@ -1,11 +1,16 @@
 package org.cibertec.salud.clinica_salud.entity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 
 import java.util.Date;
 
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "ingreso_medicamento")

@@ -1,14 +1,21 @@
 package org.cibertec.salud.clinica_salud.service.impl;
+
+import lombok.RequiredArgsConstructor;
 import org.cibertec.salud.clinica_salud.entity.RolEntity;
+import org.cibertec.salud.clinica_salud.repository.RolRepository;
 import org.cibertec.salud.clinica_salud.service.RolService;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 @Service
+public class RolServiceImpl implements RolService {
 
-public class RolServiceImpl extends GenericServiceImpl<RolEntity,Integer> implements RolService {
+    private final RolRepository rolRepository;
 
-    public RolServiceImpl(JpaRepository<RolEntity,Integer> repository) {
-        this.repository = repository;
+    @Override
+    public List<RolEntity> obtenerRoles() {
+        return rolRepository.findAll();
     }
 }

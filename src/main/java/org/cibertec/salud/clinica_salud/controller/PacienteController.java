@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 public class PacienteController {
 
-    @Value("Grupo1")
-    private String prop_author;
-
     @Autowired
     private PacienteService pacienteService;
 
