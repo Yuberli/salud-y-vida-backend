@@ -28,10 +28,9 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/auth/login-success",
                                 "/resources/**",
-                                "/api/**",
-                                "/cita/**",
-                                "/paciente/**",
-                                "/medico/**"
+                                "/api/v1/pacientes",
+                                "/api/v1/medicos",
+                                "/api/v1/cita/**"
                         ).permitAll()
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
