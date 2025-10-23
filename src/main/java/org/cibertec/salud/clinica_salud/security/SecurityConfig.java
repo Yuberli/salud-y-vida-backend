@@ -27,7 +27,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/login",
                                 "/auth/login-success",
-                                "/resources/**"
+                                "/resources/**",
+                                "/api/**",
+                                "/cita/**",
+                                "/paciente/**",
+                                "/medico/**"
                         ).permitAll()
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
