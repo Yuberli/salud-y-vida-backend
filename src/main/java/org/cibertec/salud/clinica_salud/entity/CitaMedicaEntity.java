@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "citaMedica")
+@Table(name = "citamedica")
 public class CitaMedicaEntity {
 
     @Id
