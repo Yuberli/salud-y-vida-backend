@@ -31,6 +31,7 @@ public class MedicoMapper {
                 .nombre(dto.getNombreMed())
                 .apellido(dto.getApellidoMed())
                 .especialidad(especialidad)
+                .telefono(dto.getTelefonoMed())
                 .estado(dto.getEstadoMed())
                 .build();
     }
